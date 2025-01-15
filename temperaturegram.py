@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import csv
 
 file_path = '/home/willow/Python/three_star_csv_files/system_states_20250110_T19_41_28.csv'
 
