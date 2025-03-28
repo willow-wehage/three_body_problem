@@ -258,9 +258,9 @@ def simulation():
     #X = X[:-n]
     #masses = masses[0:-n]
 
-    years = 10000
-    timestep_days = 5  
-    simulations = 20
+    years = 100
+    timestep_days = 1  
+    simulations = 1
     
     for p in range (simulations):
         
@@ -275,7 +275,7 @@ def simulation():
             print(e)
             continue
         
-        '''fig = plt.figure(figsize=(7,7))
+        fig = plt.figure(figsize=(7,7))
         ax = fig.add_subplot(111,projection='3d')
         colors = ["yellow", "red", "orange", "blue"]
         for i in range(history.shape[1]):
@@ -300,7 +300,7 @@ def simulation():
         ax.w_zaxis.set_pane_color((0.0, 0.0, 0.0, 0.0)) # No color on face z axis face
         
         plt.savefig("/home/willow/Python/Plots/simulation_result.png", figsize=(8, 10), dpi=600)
-        plt.show()'''
+        plt.show()
         
         directory_path = "/home/willow/Python/three_star_csv_files"
         os.makedirs(directory_path, exist_ok=True)
@@ -320,7 +320,7 @@ def simulation():
                 state_names.append(name + f"_{val}")
         state_names.append("T_K")
 
-        np.savetxt(file_path, states, delimiter=",", fmt="%.2f", header=",".join(state_names), comments='')
+        #np.savetxt(file_path, states, delimiter=",", fmt="%.2f", header=",".join(state_names), comments='')
 
         print(f"Simulation for thread {threading.current_thread().name} number {p} saved to {file_name_1}")
         
@@ -328,7 +328,7 @@ def simulation():
 if __name__ == "__main__":
     
     threads = []
-    for i in range(5):
+    for i in range(1):
         threads.append(threading.Thread(target=simulation, name=f'{i}'))
         
     for thread in threads:

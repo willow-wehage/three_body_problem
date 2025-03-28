@@ -1,14 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-file_path = '/home/willow/Python/three_star_csv_files/system_states_20250110_T19_41_28.csv'
+file_path = '/home/willow/Python/three_star_csv_files/system_states_20250224_T18_18_51_2.csv'
 
 data = np.genfromtxt(
         file_path, delimiter=',', names=True, dtype=None
 )
 
 plt.plot(data["time_s"]/86400, data["T_K"], color='orange')
-#plt.xlim(0, 100000)
+#plt.ylim(0, 325)
 
 #plt.xscale('log')
 plt.title('Time vs Temperature')

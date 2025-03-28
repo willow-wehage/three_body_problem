@@ -26,7 +26,7 @@ for filename in os.listdir(folder_path):
             file_path, delimiter=',', names=True, dtype=None
         )
         for t, temp in zip(data["time_s"], data["T_K"]):
-            if temp >= 273.15 and temp <= 310.928:
+            if temp >= 254.7 and temp <= 354.7:
                 if habitable_bool is True:
                     habitable_bool = True
                 else: 

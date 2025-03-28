@@ -258,77 +258,75 @@ def simulation():
     #X = X[:-n]
     #masses = masses[0:-n]
 
-    years = 10000
+    years = 100
     timestep_days = 5  
-    simulations = 20
+    simulations = 1
     
-    for p in range (simulations):
         
-        print(f"Simulation {p} out of {simulations} - thread {threading.current_thread().name}")
+    print(f"Simulation out of {simulations} - thread {threading.current_thread().name}")
         
-        SolarSystem = NBody(Xi=None, masses=masses)
+    SolarSystem = NBody(Xi=None, masses=masses)
 
-        T, dt = years * 365 * 24 * 60**2, timestep_days * 24 * 60 ** 2 
-        try:
-            history = SolarSystem.run_simulation(T, dt)
-        except Exception as e:
-            print(e)
-            continue
-        
-        '''fig = plt.figure(figsize=(7,7))
-        ax = fig.add_subplot(111,projection='3d')
-        colors = ["yellow", "red", "orange", "blue"]
-        for i in range(history.shape[1]):
-            c = colors[i]
-            x = history[:, i, 0]
-            y = history[:, i, 1]
-            z = history[:, i, 2]
-            if i < 3:
-                ms = 20
-            else:
-                ms = 10
-            ax.plot3D(x, y, z, color='gray', label=names[i], linewidth=0.2,
-                    markevery=[0], marker='o', ms=ms, mfc=c, mec="black", mew=0.5)
+    T, dt = years * 365 * 24 * 60**2, timestep_days * 24 * 60 ** 2 
+    try:
+        history = SolarSystem.run_simulation(T, dt)
+    except Exception as e:
+        print(e)
+    
+    fig = plt.figure(figsize=(7,7))
+    ax = fig.add_subplot(111,projection='3d')
+    colors = ["yellow", "red", "orange", "blue"]
+    for i in range(history.shape[1]):
+        c = colors[i]
+        x = history[:, i, 0]
+        y = history[:, i, 1]
+        z = history[:, i, 2]
+        if i < 3:
+            ms = 20
+        else:
+            ms = 10
+        ax.plot3D(x, y, z, color='gray', label=names[i], linewidth=0.2,
+                markevery=[0], marker='o', ms=ms, mfc=c, mec="black", mew=0.5)
             
-        ax.set(xlabel='X')
-        ax.set(ylabel='Y')
-        ax.set(zlabel='Z')
+    ax.set(xlabel='X')
+    ax.set(ylabel='Y')
+    ax.set(zlabel='Z')
 
-        ax.grid(False) # Turn off grid
-        ax.w_xaxis.set_pane_color((0.0, 0.0, 0.0, 0.0)) # No color on face x axis face
-        ax.w_yaxis.set_pane_color((0.0, 0.0, 0.0, 0.0)) # No color on face y axis face
-        ax.w_zaxis.set_pane_color((0.0, 0.0, 0.0, 0.0)) # No color on face z axis face
+    ax.grid(False) # Turn off grid
+    ax.w_xaxis.set_pane_color((0.0, 0.0, 0.0, 0.0)) # No color on face x axis face
+    ax.w_yaxis.set_pane_color((0.0, 0.0, 0.0, 0.0)) # No color on face y axis face
+    ax.w_zaxis.set_pane_color((0.0, 0.0, 0.0, 0.0)) # No color on face z axis face
         
-        plt.savefig("/home/willow/Python/Plots/simulation_result.png", figsize=(8, 10), dpi=600)
-        plt.show()'''
+    plt.savefig("/home/willow/Python/Plots/simulation_result.png", figsize=(8, 10), dpi=600)
+    plt.show()
         
-        directory_path = "/home/willow/Python/three_star_csv_files"
-        os.makedirs(directory_path, exist_ok=True)
+    directory_path = "/home/willow/Python/three_star_csv_files"
+    os.makedirs(directory_path, exist_ok=True)
 
-        file_name_1 = f"system_states_{datetime.datetime.now().strftime('%Y%m%d_T%H_%M_%S')}_{threading.current_thread().name}.csv"
-        file_path = os.path.join(directory_path, file_name_1)
+    file_name_1 = f"system_states_{datetime.datetime.now().strftime('%Y%m%d_T%H_%M_%S')}_{threading.current_thread().name}.csv"
+    file_path = os.path.join(directory_path, file_name_1)
 
         # first index is iteration
         # second index is planet/sun
         # third index is states
 
-        states = np.hstack((SolarSystem.times, np.reshape(history, (history.shape[0], history.shape[1] * history.shape[2])), SolarSystem.temperature))
+    states = np.hstack((SolarSystem.times, np.reshape(history, (history.shape[0], history.shape[1] * history.shape[2])), SolarSystem.temperature))
 
-        state_names = ["time_s"]
-        for name in names:
-            for val in ["x", "y", "z", "vx", "vy", "vz"]:
-                state_names.append(name + f"_{val}")
-        state_names.append("T_K")
+    state_names = ["time_s"]
+    for name in names:
+        for val in ["x", "y", "z", "vx", "vy", "vz"]:
+            state_names.append(name + f"_{val}")
+    state_names.append("T_K")
 
-        np.savetxt(file_path, states, delimiter=",", fmt="%.2f", header=",".join(state_names), comments='')
+    np.savetxt(file_path, states, delimiter=",", fmt="%.2f", header=",".join(state_names), comments='')
 
-        print(f"Simulation for thread {threading.current_thread().name} number {p} saved to {file_name_1}")
+    print(f"Simulation for saved to {file_name_1}")
         
     
 if __name__ == "__main__":
     
     threads = []
-    for i in range(5):
+    for i in range(1):
         threads.append(threading.Thread(target=simulation, name=f'{i}'))
         
     for thread in threads:
